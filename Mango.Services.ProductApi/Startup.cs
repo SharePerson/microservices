@@ -1,5 +1,6 @@
 using AutoMapper;
 using Mango.Services.ProductApi.DbContexts;
+using Mango.Services.ProductApi.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +36,8 @@ namespace Mango.Services.ProductApi
             services.AddSingleton(mapper);
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             //end of automapper config registration
+
+            services.AddScoped<IProductRepository, ProductRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
