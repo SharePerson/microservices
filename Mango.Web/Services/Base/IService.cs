@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Mango.Web.Services.Base
 {
-    public interface IService<DataType, KeyType> where DataType: class
+    public interface IService<DataType, KeyType>: IServiceBase<DataType> where DataType: class
     {
         Task<IEnumerable<DataType>> GetAllAsync();
         Task<DataType> GetAsync(KeyType key);
