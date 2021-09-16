@@ -1,3 +1,4 @@
+using AutoMapper;
 using Mango.Services.ProductApi.DbContexts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -6,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using System;
 
 namespace Mango.Services.ProductApi
 {
@@ -27,6 +29,12 @@ namespace Mango.Services.ProductApi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Mango.Services.ProductApi", Version = "v1" });
             });
+
+            //automapper config registration
+            IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
+            services.AddSingleton(mapper);
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            //end of automapper config registration
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
