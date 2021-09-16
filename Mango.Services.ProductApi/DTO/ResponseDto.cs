@@ -2,7 +2,7 @@
 
 namespace Mango.Services.ProductApi.DTO
 {
-    public class ResponseDto<DataType> where DataType: class
+    public class ResponseDto<DataType>
     {
         public bool IsSuccess { get; set; } = true;
         public DataType Result { set; get; }
