@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Mango.Services.ProductApi.Repositories
+namespace Mango.Services.ProductApi.Repositories.Base
 {
     public interface IRepository<DataType, KeyIdentifierType> where DataType: class
     {
