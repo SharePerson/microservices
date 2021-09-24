@@ -10,16 +10,14 @@ namespace Mango.Web.Services
 {
     public class ProductService : ServiceBase<ProductDto>, IProductService
     {
-        private readonly IHttpClientFactory _clientFactory;
-
         public ProductService(IHttpClientFactory clientFactory) : base(clientFactory)
         {
             _clientFactory = clientFactory;
         }
 
-        public async Task<ProductDto> CreateAsync(ProductDto item)
+        public async Task<ResponseDto<ProductDto>> CreateAsync(ProductDto item)
         {
-            return await SendAsync<ProductDto>(new ApiRequest<ProductDto>
+            return await SendAsync<ResponseDto<ProductDto>>(new ApiRequest<ProductDto>
             {
                 ApiType = ApplicationSettings.ApiType.POST,
                 Data = item,
@@ -27,36 +25,36 @@ namespace Mango.Web.Services
             });
         }
 
-        public async Task<ProductDto> DeleteAsync(int key)
+        public async Task<ResponseDto<ProductDto>> DeleteAsync(int key)
         {
-            return await SendAsync<ProductDto>(new ApiRequest<ProductDto>
+            return await SendAsync<ResponseDto<ProductDto>>(new ApiRequest<ProductDto>
             {
                 ApiType = ApplicationSettings.ApiType.DELETE,
                 Url = ApplicationSettings.ProductApiBase + "/api/products/" + key
             });
         }
 
-        public async Task<IEnumerable<ProductDto>> GetAllAsync()
+        public async Task<ResponseDto<IEnumerable<ProductDto>>> GetAllAsync()
         {
-            return await SendAsync<IEnumerable<ProductDto>>(new ApiRequest<ProductDto>
+            return await SendAsync<ResponseDto<IEnumerable<ProductDto>>>(new ApiRequest<ProductDto>
             {
                 ApiType = ApplicationSettings.ApiType.GET,
                 Url = ApplicationSettings.ProductApiBase + "/api/products"
             });
         }
 
-        public async Task<ProductDto> GetAsync(int key)
+        public async Task<ResponseDto<ProductDto>> GetAsync(int key)
         {
-            return await SendAsync<ProductDto>(new ApiRequest<ProductDto>
+            return await SendAsync<ResponseDto<ProductDto>>(new ApiRequest<ProductDto>
             {
                 ApiType = ApplicationSettings.ApiType.GET,
                 Url = ApplicationSettings.ProductApiBase + "/api/products/" + key
             });
         }
 
-        public async Task<ProductDto> UpdateAsync(ProductDto item)
+        public async Task<ResponseDto<ProductDto>> UpdateAsync(ProductDto item)
         {
-            return await SendAsync<ProductDto>(new ApiRequest<ProductDto>
+            return await SendAsync<ResponseDto<ProductDto>>(new ApiRequest<ProductDto>
             {
                 ApiType = ApplicationSettings.ApiType.PUT,
                 Data = item,

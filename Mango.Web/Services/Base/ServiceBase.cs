@@ -10,13 +10,14 @@ namespace Mango.Web.Services.Base
 {
     public class ServiceBase<DataType> : IServiceBase<DataType> where DataType : class
     {
+        protected IHttpClientFactory _clientFactory;
         public ResponseDto<DataType> Response { get; set; }
-        public IHttpClientFactory httpClient { set; get; }
+        public IHttpClientFactory HttpClient { set; get; }
 
         public ServiceBase(IHttpClientFactory httpClient)
         {
             Response = new ResponseDto<DataType>();
-            this.httpClient = httpClient;
+            this.HttpClient = httpClient;
         }
 
         public async Task<T> SendAsync<T>(ApiRequest<DataType> request)
@@ -25,7 +26,7 @@ namespace Mango.Web.Services.Base
 
             try
             {
-                HttpClient client = httpClient.CreateClient("MangoAPI");
+                HttpClient client = HttpClient.CreateClient("MangoAPI");
                 HttpRequestMessage message = new();
                 message.Headers.Add("Accept", "application/json");
                 message.RequestUri = new Uri(request.Url);
@@ -72,7 +73,7 @@ namespace Mango.Web.Services.Base
 
         public void Dispose()
         {
-            GC.SuppressFinalize(true);
+            GC.SuppressFinalize(this);
         }
     }
 }
