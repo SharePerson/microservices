@@ -11,6 +11,6 @@ namespace Mango.Web.Services.Base
         Task<ResponseDto<DataType>> GetAsync(KeyType key);
         Task<ResponseDto<DataType>> CreateAsync(DataType item);
         Task<ResponseDto<DataType>> UpdateAsync(DataType item);
-        Task<ResponseDto<DataType>> DeleteAsync(KeyType key);
+        Task<ResponseDto<bool>> DeleteAsync(KeyType key);
     }
 }
