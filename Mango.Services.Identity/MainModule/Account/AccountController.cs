@@ -242,7 +242,7 @@ namespace IdentityServerHost.Quickstart.UI
                     Email = model.Email,
                     EmailConfirmed = true,
                     FirstName = model.FirstName,
-                    LastName = model.LastNAme
+                    LastName = model.LastName
                 };
 
                 var result = await _userManager.CreateAsync(user, model.Password);
@@ -264,7 +264,7 @@ namespace IdentityServerHost.Quickstart.UI
                     await _userManager.AddClaimsAsync(user, new Claim[]{
                             new Claim(JwtClaimTypes.Name, model.Username),
                             new Claim(JwtClaimTypes.Email, model.Email),
-                            new Claim(JwtClaimTypes.FamilyName, model.LastNAme),
+                            new Claim(JwtClaimTypes.FamilyName, model.LastName),
                             new Claim(JwtClaimTypes.GivenName, model.FirstName),
                             new Claim(JwtClaimTypes.WebSite, "http://"+model.Username+".com"),
                             new Claim(JwtClaimTypes.Role,"User") });
