@@ -3,6 +3,7 @@ using Mango.Web.Models.Base;
 using Newtonsoft.Json;
 using System;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -35,6 +36,11 @@ namespace Mango.Web.Services.Base
                 if(request.Data != null)
                 {
                     message.Content = new StringContent(JsonConvert.SerializeObject(request.Data), Encoding.UTF8, "application/json");
+                }
+
+                if(!string.IsNullOrEmpty(request.AccessToken))
+                {
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", request.AccessToken);
                 }
 
                 HttpResponseMessage response = null;
