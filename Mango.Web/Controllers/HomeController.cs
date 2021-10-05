@@ -1,4 +1,5 @@
 ﻿using Mango.Web.Models;
+using Mango.Web.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,15 +15,35 @@ namespace Mango.Web.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IProductService _productService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IProductService productService)
         {
             _logger = logger;
+            _productService = productService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            List<ProductDto> products = new();
+            ResponseDto<IEnumerable<ProductDto>> response = await _productService.GetAllAsync();
+            if (response != null && response.IsSuccess)
+            {
+                products = response.Result.ToList();
+            }
+            return View(products);
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Details(int productId)
+        {
+            ProductDto product = new();
+            ResponseDto<ProductDto> response = await _productService.GetAsync(productId, await HttpContext.GetTokenAsync("access_token"));
+            if (response != null && response.IsSuccess)
+            {
+                product = response.Result;
+            }
+            return View(product);
         }
 
         public IActionResult Privacy()

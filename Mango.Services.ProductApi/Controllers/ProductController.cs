@@ -19,7 +19,6 @@ namespace Mango.Services.ProductApi.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<ResponseDto<IEnumerable<ProductDto>>> Get()
         {
             ResponseDto<IEnumerable<ProductDto>> response = new();
@@ -39,8 +38,8 @@ namespace Mango.Services.ProductApi.Controllers
         }
 
         [HttpGet]
-        [Route("{id}")]
         [Authorize]
+        [Route("{id}")]
         public async Task<ResponseDto<ProductDto>> Get(int id)
         {
             ResponseDto<ProductDto> response = new();

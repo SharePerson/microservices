@@ -15,7 +15,7 @@ namespace Mango.Web.Services
             _clientFactory = clientFactory;
         }
 
-        public async Task<ResponseDto<ProductDto>> CreateAsync(ProductDto item, string token)
+        public async Task<ResponseDto<ProductDto>> CreateAsync(ProductDto item, string token = null)
         {
             return await SendAsync<ResponseDto<ProductDto>>(new ApiRequest<ProductDto>
             {
@@ -26,7 +26,7 @@ namespace Mango.Web.Services
             });
         }
 
-        public async Task<ResponseDto<bool>> DeleteAsync(int key, string token)
+        public async Task<ResponseDto<bool>> DeleteAsync(int key, string token = null)
         {
             return await SendAsync<ResponseDto<bool>>(new ApiRequest<ProductDto>
             {
@@ -36,7 +36,7 @@ namespace Mango.Web.Services
             });
         }
 
-        public async Task<ResponseDto<IEnumerable<ProductDto>>> GetAllAsync(string token)
+        public async Task<ResponseDto<IEnumerable<ProductDto>>> GetAllAsync(string token = null)
         {
             return await SendAsync<ResponseDto<IEnumerable<ProductDto>>>(new ApiRequest<ProductDto>
             {
@@ -46,7 +46,7 @@ namespace Mango.Web.Services
             });
         }
 
-        public async Task<ResponseDto<ProductDto>> GetAsync(int key, string token)
+        public async Task<ResponseDto<ProductDto>> GetAsync(int key, string token = null)
         {
             return await SendAsync<ResponseDto<ProductDto>>(new ApiRequest<ProductDto>
             {
@@ -56,7 +56,7 @@ namespace Mango.Web.Services
             });
         }
 
-        public async Task<ResponseDto<ProductDto>> UpdateAsync(ProductDto item, string token)
+        public async Task<ResponseDto<ProductDto>> UpdateAsync(ProductDto item, string token = null)
         {
             return await SendAsync<ResponseDto<ProductDto>>(new ApiRequest<ProductDto>
             {
