@@ -1,5 +1,6 @@
 using AutoMapper;
 using Mango.Services.ShoppingCartApi.DbContexts;
+using Mango.Services.ShoppingCartApi.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -81,6 +82,8 @@ namespace Mango.Services.ShoppingCartApi
             services.AddSingleton(mapper);
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             //end of automapper config registration
+
+            services.AddScoped<ICartRepository, CartRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
