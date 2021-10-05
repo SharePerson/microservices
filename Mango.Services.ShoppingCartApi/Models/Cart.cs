@@ -6,6 +6,6 @@ namespace Mango.Services.ShoppingCartApi.Models
     {
         public CartHeader CartHeader { set; get; }
 
-        public IEnumerable<CardDetail> CardDetails { set; get; }
+        public IEnumerable<CartDetail> CardDetails { set; get; }
     }
 }
