@@ -4,6 +4,11 @@ namespace Mango.Web.Models
 {
     public class ProductDto
     {
+        public ProductDto()
+        {
+            Count = 1;
+        }
+
         public int Id { get; set; }
 
         [Required(ErrorMessage = "A product name is required")]
@@ -19,5 +24,8 @@ namespace Mango.Web.Models
 
         [Required(ErrorMessage = "A product image is required")]
         public string ImageUrl { get; set; }
+
+        [Range(1, 100)]
+        public int Count { set; get; }
     }
 }
