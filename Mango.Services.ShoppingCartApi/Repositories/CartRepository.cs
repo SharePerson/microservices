@@ -30,7 +30,7 @@ namespace Mango.Services.ShoppingCartApi.Repositories
 
             Product product = await _db.Product.FirstOrDefaultAsync(p => p.Id == item.CartDetails.FirstOrDefault().ProductId);
 
-            if(product == null)
+            if (product == null)
             {
                 await _db.Product.AddAsync(cart.CartDetails.FirstOrDefault().Product);
                 await _db.SaveChangesAsync();
@@ -38,7 +38,7 @@ namespace Mango.Services.ShoppingCartApi.Repositories
 
             var cartHeader = await _db.CartHeader.AsNoTracking().FirstOrDefaultAsync(ch => ch.UserId == cart.CartHeader.UserId);
 
-            if(cartHeader == null)
+            if (cartHeader == null)
             {
                 await _db.CartHeader.AddAsync(cart.CartHeader);
                 await _db.SaveChangesAsync();
@@ -73,32 +73,65 @@ namespace Mango.Services.ShoppingCartApi.Repositories
             return _mapper.Map<CartDto>(cart);
         }
 
-        public async Task<bool> Delete(int key)
+        public async Task<bool> ClearCart(string userId)
         {
-            try
-            {
-                Product product = await _db.Product.FirstOrDefaultAsync(p => p.Id == key);
-                if (product == null) return false;
+            var cartHeaderFromDb = await _db.CartHeader.FirstOrDefaultAsync(ch => ch.UserId == userId);
 
-                _db.Product.Remove(product);
-                await _db.SaveChangesAsync();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message, ex);
-                return false;
-            }
+            if (cartHeaderFromDb == null) return false;
+
+            _db.CartDetail.RemoveRange(_db.CartDetail.Where(cd => cd.CartHeaderId == cartHeaderFromDb.Id));
+            _db.CartHeader.Remove(cartHeaderFromDb);
+            await _db.SaveChangesAsync();
+
+            return true;
         }
 
-        public async Task<CartDto> Get(int key)
+        public async Task<CartDto> GetCartByUserId(string userId)
         {
-            return _mapper.Map<CartDto>(await _db.Product.FirstOrDefaultAsync(p => p.Id == key));
+            Cart cart = new()
+            {
+                CartHeader = await _db.CartHeader.FirstOrDefaultAsync(ch => ch.UserId == userId)
+            };
+
+            cart.CartDetails = await _db.CartDetail.Where(cd => cd.CartHeaderId == cart.CartHeader.Id)
+                .Include(cd => cd.Product)
+                .ToListAsync();
+
+            return _mapper.Map<CartDto>(cart);
         }
 
-        public async Task<IEnumerable<CartDto>> GetAll()
+        public async Task<bool> RemoveFromCart(int cartDetailId)
         {
-            return _mapper.Map<List<CartDto>>(await _db.Product.ToListAsync());
+            CartDetail cartDetail = await _db.CartDetail.FirstOrDefaultAsync(cd => cd.Id == cartDetailId);
+            if (cartDetail == null) return false;
+
+            int totalCartItems = await _db.CartDetail.Where(cd => cd.CartHeaderId == cartDetail.CartHeaderId).CountAsync();
+
+            _db.CartDetail.Remove(cartDetail);
+
+            if(totalCartItems == 1)
+            {
+                CartHeader cartHeader = await _db.CartHeader.FirstOrDefaultAsync(ch => ch.Id == cartDetail.CartHeaderId);
+                _db.CartHeader.Remove(cartHeader);
+            }
+
+            await _db.SaveChangesAsync();
+            return true;
+        }
+
+        public Task<bool> Delete(int key)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<CartDto> Get(int key)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<CartDto>> GetAll()
+        {
+            throw new NotImplementedException();
         }
     }
 }
