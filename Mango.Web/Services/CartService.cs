@@ -1,0 +1,74 @@
+﻿using Mango.Web.Models;
+using Mango.Web.Models.Base;
+using Mango.Web.Services.Base;
+using Mango.Web.Services.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
+
+namespace Mango.Web.Services
+{
+    public class CartService : ServiceBase<CartDto>, ICartService
+    {
+        public CartService(IHttpClientFactory clientFactory) : base(clientFactory)
+        {
+            _clientFactory = clientFactory;
+        }
+
+        public async Task<ResponseDto<CartDto>> CreateAsync(CartDto item, string token = null)
+        {
+            return await SendAsync<ResponseDto<CartDto>>(new ApiRequest<CartDto>
+            {
+                ApiType = ApplicationSettings.ApiType.POST,
+                Data = item,
+                Url = ApplicationSettings.ProductApiBase + "/api/cart",
+                AccessToken = token
+            });
+        }
+
+        public async Task<ResponseDto<CartDto>> GetAsync(string key, string token = null)
+        {
+            return await SendAsync<ResponseDto<CartDto>>(new ApiRequest<CartDto>
+            {
+                ApiType = ApplicationSettings.ApiType.GET,
+                Url = ApplicationSettings.ShoppingCartApiBase + "/api/cart/" + key,
+                AccessToken = token
+            });
+        }
+
+        public async Task<ResponseDto<bool>> RemoveFromCart(int cartId, string token = null)
+        {
+            return await SendAsync<ResponseDto<bool>>(new ApiRequest<CartDto>
+            {
+                ApiType = ApplicationSettings.ApiType.DELETE,
+                Url = ApplicationSettings.ProductApiBase + "/api/cart/" + cartId,
+                AccessToken = token
+            });
+        }
+
+        public async Task<ResponseDto<CartDto>> UpdateAsync(CartDto item, string token = null)
+        {
+            return await SendAsync<ResponseDto<CartDto>>(new ApiRequest<CartDto>
+            {
+                ApiType = ApplicationSettings.ApiType.PUT,
+                Data = item,
+                Url = ApplicationSettings.ProductApiBase + "/api/cart",
+                AccessToken = token
+            });
+        }
+
+
+
+        public Task<ResponseDto<IEnumerable<CartDto>>> GetAllAsync(string token = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ResponseDto<bool>> DeleteAsync(string key, string token = null)
+        {
+            throw new NotImplementedException();
+        }
+
+    }
+}
