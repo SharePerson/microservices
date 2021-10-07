@@ -8,6 +8,9 @@ namespace Mango.Web
     public static class ApplicationSettings
     {
         public static string ProductApiBase { set; get; }
+
+        public static string ShoppingCartApiBase { set; get; }
+
         public enum ApiType
         {
             GET, POST, PUT, DELETE
