@@ -1,5 +1,6 @@
 using AutoMapper;
 using Mango.Services.CouponApi.DbContexts;
+using Mango.Services.CouponApi.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -87,6 +88,8 @@ namespace Mango.Services.CouponApi
             services.AddSingleton(mapper);
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             //end of automapper config registration
+
+            services.AddScoped<ICouponRepository, CouponRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
