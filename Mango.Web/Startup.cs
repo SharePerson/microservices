@@ -45,6 +45,8 @@ namespace Mango.Web
             });
 
             services.AddHttpClient<IProductService, ProductService>();
+            services.AddHttpClient<ICartService, CartService>();
+
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ICartService, CartService>();
         }

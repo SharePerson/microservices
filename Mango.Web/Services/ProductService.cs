@@ -15,13 +15,15 @@ namespace Mango.Web.Services
             _clientFactory = clientFactory;
         }
 
+        public string ApiBaseUrl => ApplicationSettings.ProductApiBase;
+
         public async Task<ResponseDto<ProductDto>> CreateAsync(ProductDto item, string token = null)
         {
             return await SendAsync<ResponseDto<ProductDto>>(new ApiRequest<ProductDto>
             {
                 ApiType = ApplicationSettings.ApiType.POST,
                 Data = item,
-                Url = ApplicationSettings.ProductApiBase + "/api/products",
+                Url = ApiBaseUrl + "/api/products",
                 AccessToken = token
             });
         }
@@ -31,7 +33,7 @@ namespace Mango.Web.Services
             return await SendAsync<ResponseDto<bool>>(new ApiRequest<ProductDto>
             {
                 ApiType = ApplicationSettings.ApiType.DELETE,
-                Url = ApplicationSettings.ProductApiBase + "/api/products/" + key,
+                Url = ApiBaseUrl + "/api/products/" + key,
                 AccessToken = token
             });
         }
@@ -41,7 +43,7 @@ namespace Mango.Web.Services
             return await SendAsync<ResponseDto<IEnumerable<ProductDto>>>(new ApiRequest<ProductDto>
             {
                 ApiType = ApplicationSettings.ApiType.GET,
-                Url = ApplicationSettings.ProductApiBase + "/api/products",
+                Url = ApiBaseUrl + "/api/products",
                 AccessToken = token
             });
         }
@@ -51,7 +53,7 @@ namespace Mango.Web.Services
             return await SendAsync<ResponseDto<ProductDto>>(new ApiRequest<ProductDto>
             {
                 ApiType = ApplicationSettings.ApiType.GET,
-                Url = ApplicationSettings.ProductApiBase + "/api/products/" + key,
+                Url = ApiBaseUrl + "/api/products/" + key,
                 AccessToken = token
             });
         }
@@ -62,7 +64,7 @@ namespace Mango.Web.Services
             {
                 ApiType = ApplicationSettings.ApiType.PUT,
                 Data = item,
-                Url = ApplicationSettings.ProductApiBase + "/api/products",
+                Url = ApiBaseUrl + "/api/products",
                 AccessToken = token
             });
         }

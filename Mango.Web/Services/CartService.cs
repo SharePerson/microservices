@@ -11,6 +11,8 @@ namespace Mango.Web.Services
 {
     public class CartService : ServiceBase<CartDto>, ICartService
     {
+        public string ApiBaseUrl => ApplicationSettings.ShoppingCartApiBase;
+
         public CartService(IHttpClientFactory clientFactory) : base(clientFactory)
         {
             _clientFactory = clientFactory;
@@ -22,7 +24,7 @@ namespace Mango.Web.Services
             {
                 ApiType = ApplicationSettings.ApiType.POST,
                 Data = item,
-                Url = ApplicationSettings.ProductApiBase + "/api/cart",
+                Url = ApiBaseUrl + "/api/cart",
                 AccessToken = token
             });
         }
@@ -32,7 +34,7 @@ namespace Mango.Web.Services
             return await SendAsync<ResponseDto<CartDto>>(new ApiRequest<CartDto>
             {
                 ApiType = ApplicationSettings.ApiType.GET,
-                Url = ApplicationSettings.ShoppingCartApiBase + "/api/cart/" + key,
+                Url = ApiBaseUrl + "/api/cart/" + key,
                 AccessToken = token
             });
         }
@@ -42,7 +44,7 @@ namespace Mango.Web.Services
             return await SendAsync<ResponseDto<bool>>(new ApiRequest<CartDto>
             {
                 ApiType = ApplicationSettings.ApiType.DELETE,
-                Url = ApplicationSettings.ProductApiBase + "/api/cart/" + cartId,
+                Url = ApiBaseUrl + "/api/cart/" + cartId,
                 AccessToken = token
             });
         }
@@ -53,7 +55,7 @@ namespace Mango.Web.Services
             {
                 ApiType = ApplicationSettings.ApiType.PUT,
                 Data = item,
-                Url = ApplicationSettings.ProductApiBase + "/api/cart",
+                Url = ApiBaseUrl + "/api/cart",
                 AccessToken = token
             });
         }
