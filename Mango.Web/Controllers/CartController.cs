@@ -31,7 +31,14 @@ namespace Mango.Web.Controllers
         public async Task<IActionResult> Index(CartDto cart)
         {
             string accessToken = await HttpContext.GetTokenAsync("access_token");
-            await _cartService.ApplyCoupon(cart.CartHeader.UserId, cart.CartHeader.CouponCode, accessToken);
+            if(!string.IsNullOrEmpty(cart.CartHeader.CouponCode))
+            {
+                await _cartService.ApplyCoupon(cart.CartHeader.UserId, cart.CartHeader.CouponCode, accessToken);
+            }
+            else
+            {
+                await _cartService.RemoveCoupon(cart.CartHeader.UserId, accessToken);
+            }
             return View(await LoadCartDto());
         }
 
@@ -64,17 +71,18 @@ namespace Mango.Web.Controllers
                         cartResponse.Result.CartHeader.OrderTotal += cartDetail.Product.Price * cartDetail.Count;
                     }
 
-                    if(!string.IsNullOrEmpty(cartResponse.Result.CartHeader.CouponCode))
+                    if (!string.IsNullOrEmpty(cartResponse.Result.CartHeader.CouponCode))
                     {
                         ResponseDto<CouponDto> coupon = await _couponService.GetAsync(cartResponse.Result.CartHeader.CouponCode, accessToken);
 
-                        if(coupon != null && coupon.IsSuccess && coupon.Result != null)
+                        if (coupon != null && coupon.IsSuccess && coupon.Result != null)
                         {
-                            if(double.TryParse(coupon.Result.DiscountAmount, out double discount))
+                            if (double.TryParse(coupon.Result.DiscountAmount, out double discount))
                             {
                                 double total = cartResponse.Result.CartHeader.OrderTotal;
                                 cartResponse.Result.CartHeader.OrderTotal = total - (total * (discount / 100));
-                            }                            
+                                cartResponse.Result.CartHeader.Coupon = coupon.Result;
+                            }
                         }
                     }
 

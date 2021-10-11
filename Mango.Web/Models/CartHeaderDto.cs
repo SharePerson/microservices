@@ -9,5 +9,7 @@
         public string CouponCode { get; set; }
 
         public double OrderTotal { get; set; }
+
+        public CouponDto Coupon { set; get; }
     }
 }
