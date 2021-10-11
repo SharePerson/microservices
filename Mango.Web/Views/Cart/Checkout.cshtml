@@ -2,13 +2,12 @@
 
 @if (Model != null && Model.CartDetails.Any())
 {
-
-    <input hidden asp-for="CartHeader.UserId" />
-    <input hidden asp-for="CartHeader.CouponCode" />
-    <input hidden asp-for="CartHeader.DiscountTotal" />
-    <input hidden asp-for="CartHeader.OrderTotal" />
-    <input hidden asp-for="CartHeader.Id" />
     <form method="post">
+        <input hidden asp-for="CartHeader.UserId" />
+        <input hidden asp-for="CartHeader.CouponCode" />
+        <input hidden asp-for="CartHeader.DiscountTotal" />
+        <input hidden asp-for="CartHeader.OrderTotal" />
+        <input hidden asp-for="CartHeader.Id" />
         <div>
             <span style="font-size:25px;" class="text-warning">Enter details and place order :</span>
             <br />
@@ -127,6 +126,6 @@
                 'setStartDate': new Date()
             });
         });
-        
+
     </script>
 }
