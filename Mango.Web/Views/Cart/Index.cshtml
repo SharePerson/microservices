@@ -65,8 +65,8 @@
                     <div class="row">
                         <div class="col-6">
                             <span>Coupon:</span>
-                            <input asp-for="CartHeader.CouponCode" />
-                            <button type="submit" class="btn-success"> Apply </button>
+                            <input asp-for="CartHeader.CouponCode" disabled="@(!string.IsNullOrEmpty(Model.CartHeader.CouponCode))" />
+                            <button type="submit" class="@(!string.IsNullOrEmpty(Model.CartHeader.CouponCode)? "btn-danger": "btn-success")"> @(!string.IsNullOrEmpty(Model.CartHeader.CouponCode)? "Remove": "Apply") </button>
                         </div>
                         <div class="col-6 text-end">
                             @if (Model.CartHeader.Coupon != null)
