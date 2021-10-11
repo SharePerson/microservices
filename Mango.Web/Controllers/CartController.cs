@@ -80,7 +80,8 @@ namespace Mango.Web.Controllers
                             if (double.TryParse(coupon.Result.DiscountAmount, out double discount))
                             {
                                 double total = cartResponse.Result.CartHeader.OrderTotal;
-                                cartResponse.Result.CartHeader.OrderTotal = total - (total * (discount / 100));
+                                cartResponse.Result.CartHeader.DiscountTotal = total * (discount / 100);
+                                cartResponse.Result.CartHeader.OrderTotal = total - cartResponse.Result.CartHeader.DiscountTotal;
                                 cartResponse.Result.CartHeader.Coupon = coupon.Result;
                             }
                         }
@@ -91,6 +92,11 @@ namespace Mango.Web.Controllers
             }
 
             return null;
+        }
+
+        public async Task<IActionResult> Checkout()
+        {
+            return View(await LoadCartDto());
         }
     }
 }

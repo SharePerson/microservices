@@ -11,5 +11,7 @@
         public double OrderTotal { get; set; }
 
         public CouponDto Coupon { set; get; }
+
+        public double DiscountTotal { set; get; }
     }
 }
