@@ -73,6 +73,7 @@
                             {
                                 <p>Applied Coupon: @Model.CartHeader.Coupon.CouponCode</p>
                                 <p>Discount: @Model.CartHeader.Coupon.DiscountAmount%</p>
+                                <p>Discount Total: @string.Format("{0:c}", Model.CartHeader.DiscountTotal)</p>
                             }
                             <span class="text-danger" style="font-size:21px;">  Order Total : @string.Format("{0:c}", Model.CartHeader.OrderTotal) <br /></span>
                         </div>

@@ -119,3 +119,14 @@
     </form>
 }
 
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".form_datetime").datetimepicker({
+                format: 'yyyy-mm-dd hh:ii',
+                'setStartDate': new Date()
+            });
+        });
+        
+    </script>
+}
