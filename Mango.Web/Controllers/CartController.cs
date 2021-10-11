@@ -104,7 +104,12 @@ namespace Mango.Web.Controllers
         public async Task<IActionResult> Checkout(CartDto cartDto)
         {
             object response = await _cartService.Checkout(cartDto, await HttpContext.GetTokenAsync("access_token"));
-            return View(await LoadCartDto());
+            return View(nameof(Confirmation));
+        }
+
+        public IActionResult Confirmation()
+        {
+            return View();
         }
     }
 }
