@@ -106,8 +106,8 @@ namespace Mango.Services.ShoppingCartApi.Controllers
             return response;
         }
 
-        [HttpPost("{userId}/coupons")]
-        public async Task<ResponseDto<bool>> ApplyCoupon(string userId, [FromBody] string code)
+        [HttpPost("{userId}/coupons/{code}")]
+        public async Task<ResponseDto<bool>> ApplyCoupon(string userId, string code)
         {
             ResponseDto<bool> response = new();
 

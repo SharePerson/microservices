@@ -60,7 +60,27 @@ namespace Mango.Web.Services
             });
         }
 
+        public async Task<ResponseDto<bool>> ApplyCoupon(string userId, string couponCode, string token = null)
+        {
+            return await SendAsync<ResponseDto<bool>>(new ApiRequest<CartDto>
+            {
+                ApiType = ApplicationSettings.ApiType.POST,
+                Url = ApiBaseUrl + "/api/cart/" + userId + "/coupons/" + couponCode,
+                AccessToken = token
 
+            });
+        }
+
+        public async Task<ResponseDto<bool>> RemoveCoupon(string userId, string token = null)
+        {
+            return await SendAsync<ResponseDto<bool>>(new ApiRequest<CartDto>
+            {
+                ApiType = ApplicationSettings.ApiType.DELETE,
+                Url = ApiBaseUrl + "/api/cart/" + userId + "/coupons",
+                AccessToken = token
+
+            });
+        }
 
         public Task<ResponseDto<IEnumerable<CartDto>>> GetAllAsync(string token = null)
         {
@@ -71,6 +91,5 @@ namespace Mango.Web.Services
         {
             throw new NotImplementedException();
         }
-
     }
 }
