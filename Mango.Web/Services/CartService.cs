@@ -82,6 +82,17 @@ namespace Mango.Web.Services
             });
         }
 
+        public async Task<object> Checkout(CartDto cartDto, string token = null)
+        {
+            return await SendAsync<ResponseDto<object>>(new ApiRequest<CartDto>
+            {
+                ApiType = ApplicationSettings.ApiType.POST,
+                Url = ApiBaseUrl + "/api/cart/checkouts",
+                AccessToken = token,
+                Data = cartDto
+            });
+        }
+
         public Task<ResponseDto<IEnumerable<CartDto>>> GetAllAsync(string token = null)
         {
             throw new NotImplementedException();

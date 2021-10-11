@@ -98,5 +98,13 @@ namespace Mango.Web.Controllers
         {
             return View(await LoadCartDto());
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Checkout(CartDto cartDto)
+        {
+            object response = await _cartService.Checkout(cartDto, await HttpContext.GetTokenAsync("access_token"));
+            return View(await LoadCartDto());
+        }
     }
 }

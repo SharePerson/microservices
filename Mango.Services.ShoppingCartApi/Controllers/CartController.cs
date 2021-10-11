@@ -153,24 +153,33 @@ namespace Mango.Services.ShoppingCartApi.Controllers
         }
 
         [HttpPost("checkouts")]
-        public async Task<object> Checkout(CheckoutDto checkout)
+        public async Task<object> Checkout(CartDto cartDto)
         {
             ResponseDto<bool> response = new();
 
             try
             {
-                CartDto cartDto = await _cartRepository.GetCartByUserId(checkout.UserId);
+                CartDto cartFromDb = await _cartRepository.GetCartByUserId(cartDto.CartHeader.UserId);
 
-                if (cartDto == null) return BadRequest();
+                if (cartFromDb == null) return BadRequest();
 
-                checkout.CartDetails = cartDto.CartDetails.ToList();
-                checkout.CartHeaderId = cartDto.CartHeader.Id;
-                checkout.UserId = cartDto.CartHeader.UserId;
-                checkout.CouponCode = cartDto.CartHeader.CouponCode;
-                
-                //totalitems
-                //discountotal
-                //ordertotal
+                CheckoutMessage checkoutMessage = new()
+                {
+                    CardNumber = cartDto.Checkout.CardNumber,
+                    CartDetails = cartFromDb.CartDetails.ToList(),
+                    CartHeaderId = cartDto.CartHeader.Id,
+                    CouponCode = cartDto.CartHeader.CouponCode,
+                    CVV = cartDto.Checkout.CVV,
+                    DiscountTotal = cartDto.CartHeader.DiscountTotal,
+                    Email = cartDto.Checkout.Email,
+                    FirstName = cartDto.Checkout.FirstName,
+                    LastName = cartDto.Checkout.LastName,
+                    MMYY = cartDto.Checkout.MMYY,
+                    OrderTotal = cartDto.CartHeader.OrderTotal,
+                    Phone = cartDto.Checkout.Phone,
+                    PickupTime = cartDto.Checkout.PickupTime,
+                    UserId = cartDto.CartHeader.UserId
+                };
 
                 //add message to process order
             }

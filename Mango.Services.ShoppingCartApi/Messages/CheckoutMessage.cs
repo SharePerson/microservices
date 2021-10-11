@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Mango.Services.ShoppingCartApi.Messages
 {
-    public class CheckoutDto
+    public class CheckoutMessage
     {
         public string FirstName { set; get; }
         public string LastName { set; get; }

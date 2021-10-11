@@ -9,5 +9,6 @@ namespace Mango.Web.Services.Interfaces
         Task<ResponseDto<bool>> RemoveFromCart(int cartId, string token = null);
         Task<ResponseDto<bool>> ApplyCoupon(string userId, string couponCode, string token = null);
         Task<ResponseDto<bool>> RemoveCoupon(string userId, string token = null);
+        Task<object> Checkout(CartDto cartDto, string token = null);
     }
 }
