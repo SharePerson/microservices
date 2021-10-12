@@ -1,10 +1,11 @@
-﻿using Mango.Services.ShoppingCartApi.DTO;
+﻿using Mango.MessageBus;
+using Mango.Services.ShoppingCartApi.DTO;
 using System;
 using System.Collections.Generic;
 
 namespace Mango.Services.ShoppingCartApi.Messages
 {
-    public class CheckoutMessage
+    public class CheckoutMessage: MessageBase
     {
         public string FirstName { set; get; }
         public string LastName { set; get; }
