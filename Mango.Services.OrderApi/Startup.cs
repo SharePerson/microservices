@@ -1,5 +1,7 @@
 using AutoMapper;
 using Mango.Services.OrderApi.DbContexts;
+using Mango.Services.OrderApi.Extensions;
+using Mango.Services.OrderApi.Messaging;
 using Mango.Services.OrderApi.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -93,6 +95,9 @@ namespace Mango.Services.OrderApi
             var optionBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
             optionBuilder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             services.AddSingleton(new OrderRepository(optionBuilder.Options));
+
+            //service bus consumer as singleton
+            services.AddSingleton<IAzureServiceBusConsumer, AzureServiceBusConsumer>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -117,6 +122,8 @@ namespace Mango.Services.OrderApi
             {
                 endpoints.MapControllers();
             });
+
+            app.UseAzureServiceBusConsumer();
         }
     }
 }

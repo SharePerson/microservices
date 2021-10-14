@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Mango.Services.OrderApi.Messaging
 {
-    public class AzureServiceBusConsumer
+    public class AzureServiceBusConsumer: IAzureServiceBusConsumer
     {
         private readonly string serviceBusConnectionString;
         private readonly string checkoutMessageTopic;
