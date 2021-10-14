@@ -21,6 +21,8 @@ namespace Mango.Services.OrderApi.Messaging
         private readonly OrderRepository _orderRepository;
         private readonly IConfiguration _configuration;
 
+        private ServiceBusProcessor checkoutProcessor;
+
         public AzureServiceBusConsumer(OrderRepository orderRepository, IConfiguration configuration)
         {
             _orderRepository = orderRepository;
@@ -29,6 +31,23 @@ namespace Mango.Services.OrderApi.Messaging
             serviceBusConnectionString = _configuration.GetValue<string>("ServiceBusConnectionString");
             checkoutMessageTopic = _configuration.GetValue<string>("CheckoutMessageTopic");
             checkoutMessageSubscription = _configuration.GetValue<string>("CheckoutMessageSubscription");
+
+            var client = new ServiceBusClient(serviceBusConnectionString);
+            checkoutProcessor = client.CreateProcessor(checkoutMessageTopic, checkoutMessageSubscription);
+        }
+
+        public async Task Start()
+        {
+            checkoutProcessor.ProcessMessageAsync += OnCheckoutMessageReceived;
+            checkoutProcessor.ProcessErrorAsync += ErrorHandler;
+
+            await checkoutProcessor.StartProcessingAsync();
+        }
+
+        public async Task Stop()
+        {
+            await checkoutProcessor.StopProcessingAsync();
+            await checkoutProcessor.DisposeAsync();
         }
 
         private async Task OnCheckoutMessageReceived(ProcessMessageEventArgs args)
@@ -77,6 +96,12 @@ namespace Mango.Services.OrderApi.Messaging
                     await _orderRepository.CreateUpdate(orderHeader);
                 }
             }
+        }
+
+        private Task ErrorHandler(ProcessErrorEventArgs args)
+        {
+            Console.WriteLine(args.Exception.ToString());
+            return Task.CompletedTask;
         }
     }
 }
