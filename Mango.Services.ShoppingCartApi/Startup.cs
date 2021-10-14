@@ -86,6 +86,10 @@ namespace Mango.Services.ShoppingCartApi
 
             services.AddScoped<ICartRepository, CartRepository>();
             services.AddSingleton<IMessageBus, AzureServiceBusMessageBus>();
+
+
+            services.AddHttpClient<ICouponRepository, CouponRepository>();
+            services.AddScoped<ICouponRepository, CouponRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

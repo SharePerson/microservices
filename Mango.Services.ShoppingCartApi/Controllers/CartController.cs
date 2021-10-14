@@ -16,11 +16,13 @@ namespace Mango.Services.ShoppingCartApi.Controllers
     {
         private readonly ICartRepository _cartRepository;
         private readonly IMessageBus _messageBus;
+        private readonly ICouponRepository _couponRepository;
 
-        public CartController(ICartRepository cartRepository, IMessageBus messageBus)
+        public CartController(ICartRepository cartRepository, IMessageBus messageBus, ICouponRepository couponRepository)
         {
             _cartRepository = cartRepository;
             _messageBus = messageBus;
+            _couponRepository = couponRepository;
         }
 
         [HttpGet("{userId}")]
@@ -165,6 +167,26 @@ namespace Mango.Services.ShoppingCartApi.Controllers
                 CartDto cartFromDb = await _cartRepository.GetCartByUserId(cartDto.CartHeader.UserId);
 
                 if (cartFromDb == null) return BadRequest();
+
+                //coupon validation
+                if(!string.IsNullOrEmpty(cartDto.CartHeader.CouponCode))
+                {
+                    CouponDto activeCoupon = await _couponRepository.Get(cartDto.CartHeader.CouponCode);
+
+                    if (activeCoupon == null) return BadRequest();
+
+                    double totalPriceWithoutDiscount = cartDto.CartHeader.DiscountTotal + cartDto.CartHeader.OrderTotal;
+                    double discountPercentage = 100 - (cartDto.CartHeader.OrderTotal / totalPriceWithoutDiscount * 100);
+                    string discountString = discountPercentage.ToString();
+
+                    if (discountString != activeCoupon.DiscountAmount)
+                    {
+                        response.IsSuccess = false;
+                        response.ErrorMessages = new List<string> { "Coupon changed, please confirm" };
+                        response.DisplayMessage = "Coupon changed, please confirm";
+                        return response;
+                    }
+                }
 
                 CheckoutMessage checkoutMessage = new()
                 {

@@ -19,7 +19,6 @@ namespace Mango.Services.CouponApi.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         [Route("{code}")]
         public async Task<ResponseDto<CouponDto>> Get(string code)
         {
