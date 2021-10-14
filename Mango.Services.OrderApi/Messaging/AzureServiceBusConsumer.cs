@@ -86,7 +86,8 @@ namespace Mango.Services.OrderApi.Messaging
                             Count = cartDetail.Count,
                             Price = cartDetail.Product?.Price ?? 0,
                             ProductName = cartDetail.Product?.Name ?? string.Empty,
-                            ProductId = cartDetail.Product?.Id ?? 0
+                            ProductId = cartDetail.Product?.Id ?? 0,
+                            OrderHeaderId = orderHeader.Id
                         };
 
                         orderHeader.TotalItems += orderDetail.Count;
