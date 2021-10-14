@@ -1,5 +1,6 @@
 using AutoMapper;
 using Mango.Services.OrderApi.DbContexts;
+using Mango.Services.OrderApi.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -88,7 +89,10 @@ namespace Mango.Services.OrderApi
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             //end of automapper config registration
 
-           
+            //configuring OrderRepository through options builder as a singleton.
+            var optionBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
+            optionBuilder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            services.AddSingleton(new OrderRepository(optionBuilder.Options));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
