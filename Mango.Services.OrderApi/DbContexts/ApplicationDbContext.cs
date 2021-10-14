@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Mango.Services.OrderApi.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Mango.Services.OrderApi.DbContexts
 {
@@ -8,5 +9,8 @@ namespace Mango.Services.OrderApi.DbContexts
         {
 
         }
+
+        public DbSet<OrderHeader> OrderHeader { set; get; }
+        public DbSet<OrderDetail> OrderDetail { set; get; }
     }
 }
