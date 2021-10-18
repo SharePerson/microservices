@@ -105,9 +105,7 @@ namespace Mango.Services.OrderApi.Messaging
                     PaymentRequestMessage paymentRequestMessage = new()
                     {
                         CardNumber = orderHeader.CardNumber,
-                        CreationDate = DateTime.Now,
                         CVV = orderHeader.CVV,
-                        Id = Guid.NewGuid(),
                         MMYY = orderHeader.MMYY,
                         Name = orderHeader.FirstName + " " + orderHeader.LastName,
                         OrderId = orderHeader.Id,

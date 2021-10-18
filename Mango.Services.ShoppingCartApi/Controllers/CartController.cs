@@ -203,9 +203,7 @@ namespace Mango.Services.ShoppingCartApi.Controllers
                     OrderTotal = cartDto.CartHeader.OrderTotal,
                     Phone = cartDto.Checkout.Phone,
                     PickupTime = cartDto.Checkout.PickupTime,
-                    UserId = cartDto.CartHeader.UserId,
-                    Id = Guid.NewGuid(),
-                    CreationDate = DateTime.Now
+                    UserId = cartDto.CartHeader.UserId
                 };
 
                 await _messageBus.PublishMessage(checkoutMessage, "checkoutmessagetopic");
