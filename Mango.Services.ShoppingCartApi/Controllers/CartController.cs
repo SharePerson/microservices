@@ -206,7 +206,7 @@ namespace Mango.Services.ShoppingCartApi.Controllers
                     UserId = cartDto.CartHeader.UserId
                 };
 
-                await _messageBus.PublishMessage(checkoutMessage, "checkoutmessagetopic");
+                await _messageBus.PublishMessage(checkoutMessage, "checkoutqueue");
                 await _cartRepository.ClearCart(checkoutMessage.UserId);
 
                 //add message to process order

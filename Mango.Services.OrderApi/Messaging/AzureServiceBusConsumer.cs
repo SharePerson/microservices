@@ -41,6 +41,8 @@ namespace Mango.Services.OrderApi.Messaging
 
 
             var client = new ServiceBusClient(serviceBusConnectionString);
+
+            //processors can be used on topics/subscriptions or queues
             checkoutProcessor = client.CreateProcessor(checkoutMessageTopic, checkoutMessageSubscription);
             orderPaymentResultProcessor = client.CreateProcessor(orderPaymentResultTopic, checkoutMessageSubscription);
             _messageBus = messageBus;
