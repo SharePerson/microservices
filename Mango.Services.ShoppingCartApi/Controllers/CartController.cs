@@ -207,6 +207,7 @@ namespace Mango.Services.ShoppingCartApi.Controllers
                 };
 
                 await _messageBus.PublishMessage(checkoutMessage, "checkoutmessagetopic");
+                await _cartRepository.ClearCart(checkoutMessage.UserId);
 
                 //add message to process order
             }
