@@ -1,4 +1,5 @@
 using AutoMapper;
+using Mango.MessageBus;
 using Mango.Services.OrderApi.DbContexts;
 using Mango.Services.OrderApi.Extensions;
 using Mango.Services.OrderApi.Messaging;
@@ -98,6 +99,7 @@ namespace Mango.Services.OrderApi
 
             //service bus consumer as singleton
             services.AddSingleton<IAzureServiceBusConsumer, AzureServiceBusConsumer>();
+            services.AddSingleton<IMessageBus, AzureServiceBusMessageBus>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
